@@ -1,0 +1,70 @@
+{
+  "playlists": [
+    {
+      "name": "Featured Songs",
+      "type": "featured",
+      "songs": [
+        {
+          "id": 1,
+          "title": "ARIJIT SINGH | Fitratein (Official Video) |  Ronak Phukan | Sanam Johar | Kanikka Kapur | Hindi Song",
+          "video_id": "PylcNpYMX4A",
+          "original_query": "Fitratein - Arijit Singh, Ronak Phukan"
+        },
+        {
+          "id": 2,
+          "title": "Ishq Jalakar - Karvaan (From \"Dhurandhar\") · Shashwat Sachdev · Irshad Kamil ",
+          "video_id": "3_kVMDG-k5M",
+          "original_query": "Ishq Jalakar - Karvaan - Irshad Kamil, Shashwat Sachdev"
+        },
+        {
+          "id": 3,
+          "title": "Qubool (From \"Haq\") · Vishal Mishra · Armaan Khan · Kaushal Kishore",
+          "video_id": "mojyb7uLPG8",
+          "original_query": "Qubool - Kaushal Kishore, Vishal Mishra"
+        },
+        {
+          "id": 4,
+          "title": "Sitaare (From \"Ikkis\") | Arijit Singh | White Noise Collectives | Amitabh Bhattacharya ",
+          "video_id": "xAqCVa0cWrc",
+          "original_query": "Sitaare (From 'Ikkis') - Arijit Singh, Amitabh Bhattacharya"
+        },
+        {
+          "id": 5,
+          "title": "DEEWANIYAT Title Track - Ek Deewane Ki Deewaniyat | Harshvardhan Sonam | Vishal ,KaushikGuddu,Kunaal",
+          "video_id": "Qo4IOTAbGAM",
+          "original_query": "Deewaniyat - Vishal Mishra, Kunaal Vermaa"
+        },
+        {
+          "id": 6,
+          "title": "Ghar Kab Aaoge (LYRICS) - Sonu N | Arijit S | Vishal M | Diljit D | Sunny | Varun | Ahan | Diljit",
+          "video_id": "aDrc_HtTLJw",
+          "original_query": "Ghar Kab Aaoge - Sonu Nigam, Arijit Singh"
+        },
+        {
+          "id": 7,
+          "title": "Kasturi - Ek Jaisa Haal | Arijit Singh | Amar Prem Ki Prem Kahani | Prasad S| Kunaal V|New Song 2024",
+          "video_id": "reySvnsz-tk",
+          "original_query": "Kasturi - Arijit Singh, Kunaal Vermaa"
+        },
+        {
+          "id": 8,
+          "title": "Piche Tere (Official Video) | Kunwarr | Punjabi Song 2026 | New Punjabi Pop Song | Punjabi Music",
+          "video_id": "SZisWzyBdHI",
+          "original_query": "Piche Tere - Kunwarr"
+        },
+        {
+          "id": 9,
+          "title": "Andaaz e Karam (Official Video) Madhur Sharma, Moin, ER, Roheb",
+          "video_id": "__bHEfJ29j0",
+          "original_query": "Andaaz e Karam - Madhur Sharma"
+        },
+        {
+          "id": 10,
+          "title": "Aayi Nai -Stree 2 | Shraddha Kapoor | Rajkummar Rao | Sachin-Jigar |Pawan Singh,Simran,Divya,Amitabh",
+          "video_id": "nFgsBxw-zWQ",
+          "original_query": "Aayi Nai (From 'Stree 2') - Sachin-Jigar, Pawan Singh"
+        }
+      ]
+    }
+  ]
+}

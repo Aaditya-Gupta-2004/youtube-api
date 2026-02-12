@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from yt_dlp import YoutubeDL
 from fastapi.middleware.cors import CORSMiddleware
+import json
 
 app = FastAPI(title="Mini Spotify Clone API")
 
@@ -72,3 +73,15 @@ def search(query: str):
                 "thumbnail": entry.get("thumbnail"),  # <-- add this
             })
     return {"results": results}
+
+
+
+@app.get("/featured")
+@app.get("/featured")
+def featured():
+    try:
+        with open("featured.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
+        return data
+    except Exception as e:
+        return {"error": str(e)}

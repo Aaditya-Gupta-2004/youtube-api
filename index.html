@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auto JSON Generator</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: Arial;
+      background: #121212;
+      color: white;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      background: #1db954;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    pre {
+      background: #1e1e1e;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎵 Auto Generate Songs JSON</h1>
+<button onclick="generateJSON()">Generate JSON</button>
+
+<pre id="output"></pre>
+
+<script>
+const API_BASE = "https://youtube-api-f5rc.onrender.com";
+
+// Your selected songs
+const songsList = [
+  "Fitratein - Arijit Singh, Ronak Phukan",
+  "Ishq Jalakar - Karvaan - Irshad Kamil, Shashwat Sachdev",
+  "Qubool - Kaushal Kishore, Vishal Mishra",
+  "Sitaare (From 'Ikkis') - Arijit Singh, Amitabh Bhattacharya",
+  "Deewaniyat - Vishal Mishra, Kunaal Vermaa",
+  "Ghar Kab Aaoge - Sonu Nigam, Arijit Singh",
+  "Kasturi - Arijit Singh, Kunaal Vermaa",
+  "Piche Tere - Kunwarr",
+  "Andaaz e Karam - Madhur Sharma",
+  "Aayi Nai (From 'Stree 2') - Sachin-Jigar, Pawan Singh"
+];
+
+async function generateJSON() {
+  let finalData = {
+    playlists: [
+      {
+        name: "Featured Songs",
+        type: "featured",
+        songs: []
+      }
+    ]
+  };
+
+  for (let i = 0; i < songsList.length; i++) {
+    const query = songsList[i];
+
+    try {
+      console.log("Searching:", query);
+
+      const res = await fetch(`${API_BASE}/search?query=${encodeURIComponent(query)}`);
+      const data = await res.json();
+
+      if (data.results && data.results.length > 0) {
+        const firstResult = data.results[0];
+
+        finalData.playlists[0].songs.push({
+          id: i + 1,
+          title: firstResult.title,
+          video_id: firstResult.video_id,
+          thumbnail: firstResult.thumbnail,
+          original_query: query
+        });
+      }
+
+    } catch (error) {
+      console.error("Error:", query, error);
+    }
+  }
+
+  // Show JSON on page
+  document.getElementById("output").textContent =
+    JSON.stringify(finalData, null, 2);
+
+  console.log("✅ Final JSON:", finalData);
+}
+</script>
+
+</body>
+</html>
