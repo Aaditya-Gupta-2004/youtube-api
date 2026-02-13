@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-from yt_dlp import YoutubeDL
 from fastapi.middleware.cors import CORSMiddleware
-import json
+import httpx
 
-app = FastAPI(title="Mini Spotify Clone API")
+app = FastAPI(title="Mini Spotify Clone API - iTunes Version")
 
 # Allow frontend to call API
 app.add_middleware(
@@ -13,75 +12,55 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# yt-dlp options for audio only
-YDL_OPTS = {
-    "format": "bestaudio/best",  # get best audio stream
-    "quiet": True,
-    "noplaylist": True,
-    "extract_flat": "in_playlist",  # no videos list extraction
-    "js_runtime": "node",           # Node.js must be installed
-}
-
 @app.get("/")
 def home():
     return {"message": "Mini Spotify Clone API running"}
 
 @app.get("/search")
-def search(query: str):
+async def search(query: str):
     """
-    Search for songs and return top 5 results with video IDs and titles
+    Search for songs on iTunes and return top 10 results with playable preview URLs
     """
-    search_opts = YDL_OPTS.copy()
-    search_opts["default_search"] = "ytsearch5"  # top 5 results
-    with YoutubeDL(search_opts) as ydl:
-        info = ydl.extract_info(query, download=False)
-        results = []
-        for entry in info.get("entries", []):
-            results.append({
-                "title": entry.get("title"),
-                "video_id": entry.get("id"),
-            })
+    url = f"https://itunes.apple.com/search?term={query}&entity=song&limit=10"
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        data = response.json()
+
+    results = []
+    for item in data.get("results", []):
+        results.append({
+            "title": item.get("trackName"),
+            "artist": item.get("artistName"),
+            "album": item.get("collectionName"),
+            "audio_url": item.get("previewUrl"),  # 🔥 Playable in React Native
+            "image": item.get("artworkUrl100").replace("100x100", "500x500"),
+            "id": item.get("trackId")
+        })
+
     return {"results": results}
 
-@app.get("/play/{video_id}")
-def play(video_id: str):
-    """
-    Return direct audio URL for a YouTube video
-    """
-    url = f"https://www.youtube.com/watch?v={video_id}"
-    with YoutubeDL(YDL_OPTS) as ydl:
-        info = ydl.extract_info(url, download=False)
-        audio_url = info.get("url")  # direct audio URL
-        title = info.get("title")
-    return {"audio_url": audio_url, "title": title}
-
-
-@app.get("/search")
-def search(query: str):
-    """
-    Search for songs and return top 5 results with video IDs, titles, and thumbnails
-    """
-    search_opts = YDL_OPTS.copy()
-    search_opts["default_search"] = "ytsearch5"  # top 5 results
-    with YoutubeDL(search_opts) as ydl:
-        info = ydl.extract_info(query, download=False)
-        results = []
-        for entry in info.get("entries", []):
-            results.append({
-                "title": entry.get("title"),
-                "video_id": entry.get("id"),
-                "thumbnail": entry.get("thumbnail"),  # <-- add this
-            })
-    return {"results": results}
-
-
-
 @app.get("/featured")
-@app.get("/featured")
-def featured():
-    try:
-        with open("featured.json", "r", encoding="utf-8") as file:
-            data = json.load(file)
-        return data
-    except Exception as e:
-        return {"error": str(e)}
+async def featured():
+    """
+    Return featured playlists (hardcoded queries)
+    """
+    featured_queries = ["Ed Sheeran", "The Weeknd", "Taylor Swift", "Drake"]
+    featured_songs = []
+
+    async with httpx.AsyncClient() as client:
+        for query in featured_queries:
+            url = f"https://itunes.apple.com/search?term={query}&entity=song&limit=3"
+            response = await client.get(url)
+            data = response.json()
+            for item in data.get("results", []):
+                featured_songs.append({
+                    "title": item.get("trackName"),
+                    "artist": item.get("artistName"),
+                    "album": item.get("collectionName"),
+                    "audio_url": item.get("previewUrl"),
+                    "image": item.get("artworkUrl100").replace("100x100", "500x500"),
+                    "id": item.get("trackId")
+                })
+
+    return {"playlists": [{"name": "Featured", "songs": featured_songs}]}
