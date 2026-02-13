@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import json
 import httpx
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Mini Spotify Clone API - iTunes Version")
 
@@ -12,6 +13,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.mount("/featured", StaticFiles(directory="featured", html=False), name="static")
 
 @app.get("/")
 def home():
