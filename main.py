@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import json
 import httpx
 
 app = FastAPI(title="Mini Spotify Clone API - iTunes Version")
