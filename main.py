@@ -41,26 +41,10 @@ async def search(query: str):
     return {"results": results}
 
 @app.get("/featured")
-async def featured():
-    """
-    Return featured playlists (hardcoded queries)
-    """
-    featured_queries = ["Ed Sheeran", "The Weeknd", "Taylor Swift", "Drake"]
-    featured_songs = []
-
-    async with httpx.AsyncClient() as client:
-        for query in featured_queries:
-            url = f"https://itunes.apple.com/search?term={query}&entity=song&limit=3"
-            response = await client.get(url)
-            data = response.json()
-            for item in data.get("results", []):
-                featured_songs.append({
-                    "title": item.get("trackName"),
-                    "artist": item.get("artistName"),
-                    "album": item.get("collectionName"),
-                    "audio_url": item.get("previewUrl"),
-                    "image": item.get("artworkUrl100").replace("100x100", "500x500"),
-                    "id": item.get("trackId")
-                })
-
-    return {"playlists": [{"name": "Featured", "songs": featured_songs}]}
+def featured():
+    try:
+        with open("featured.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
+        return data
+    except Exception as e:
+        return {"error": str(e)}
