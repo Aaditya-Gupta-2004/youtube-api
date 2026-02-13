@@ -13,7 +13,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/featured", StaticFiles(directory="featured", html=False), name="static")
+app.mount("/featured", StaticFiles(directory="featured", html=False), name="featured")
 
 @app.get("/")
 def home():
